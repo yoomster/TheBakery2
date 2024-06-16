@@ -34,5 +34,14 @@ namespace DeBakery
             StockUpdated?.Invoke();
         }
 
+
+
+
+
+        public void SellSandwich(SandwichModel sandwich)
+        {
+            SoldSandwiches.Add(sandwich);
+            SandwichesInStock.Remove(sandwich);
+        }
     }
 }

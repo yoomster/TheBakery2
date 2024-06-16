@@ -42,9 +42,16 @@ namespace DeBakery
 
         private void AddSelectedIngredients(SandwichModel sandwich)
         {
-            foreach (IngredientModel ingredient in listBoxIngredienten.SelectedItems)
+            if (listBoxIngredienten.SelectedItems.Count >= 5 )
             {
-                sandwich.Ingredients.Add(ingredient);
+                MessageBox.Show("Maximaal 5 ingrediënten toegestaan");
+            }
+            else
+            {
+                foreach (IngredientModel ingredient in listBoxIngredienten.SelectedItems)
+                {
+                    sandwich.Ingredients.Add(ingredient);
+                }
             }
         }
 

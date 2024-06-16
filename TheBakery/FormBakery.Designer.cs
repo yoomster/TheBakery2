@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
             this.listBoxSandwiches = new System.Windows.Forms.ListBox();
             this.labelBreadTypeTitle = new System.Windows.Forms.Label();
             this.groupBoxSandwiches = new System.Windows.Forms.GroupBox();
@@ -42,8 +43,10 @@
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonLoad = new System.Windows.Forms.Button();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.groupBoxSandwiches.SuspendLayout();
             this.groupBoxBroodjeDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // listBoxSandwiches
@@ -53,6 +56,7 @@
             this.listBoxSandwiches.Name = "listBoxSandwiches";
             this.listBoxSandwiches.Size = new System.Drawing.Size(174, 108);
             this.listBoxSandwiches.TabIndex = 1;
+            this.listBoxSandwiches.SelectedIndexChanged += new System.EventHandler(this.listBoxSandwiches_SelectedIndexChanged);
             // 
             // labelBreadTypeTitle
             // 
@@ -102,6 +106,7 @@
             this.buttonSell.TabIndex = 4;
             this.buttonSell.Text = "Verkopen";
             this.buttonSell.UseVisualStyleBackColor = true;
+            this.buttonSell.Click += new System.EventHandler(this.buttonSell_Click);
             // 
             // groupBoxBroodjeDetails
             // 
@@ -160,6 +165,7 @@
             this.buttonClose.TabIndex = 7;
             this.buttonClose.Text = "Sluit";
             this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
@@ -179,6 +185,10 @@
             this.buttonLoad.Text = "Inladen";
             this.buttonLoad.UseVisualStyleBackColor = true;
             // 
+            // bindingSource1
+            // 
+            this.bindingSource1.DataSource = typeof(DeBakery.IngredientModel);
+            // 
             // FormBakery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -195,6 +205,7 @@
             this.groupBoxSandwiches.PerformLayout();
             this.groupBoxBroodjeDetails.ResumeLayout(false);
             this.groupBoxBroodjeDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -214,6 +225,8 @@
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.Button buttonLoad;
 		private System.Windows.Forms.Button buttonNewSandwich;
-	}
+        private System.Windows.Forms.BindingSource ingredientModelBindingSource;
+        private System.Windows.Forms.BindingSource bindingSource1;
+    }
 }
 
