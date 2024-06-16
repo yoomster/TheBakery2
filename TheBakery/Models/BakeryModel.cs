@@ -43,5 +43,10 @@ namespace DeBakery
             SoldSandwiches.Add(sandwich);
             SandwichesInStock.Remove(sandwich);
         }
+
+        internal int CalculatePrice(List<IngredientModel> ingredients)
+        {
+            return ingredients.Sum(i => i.Price);
+        }
     }
 }

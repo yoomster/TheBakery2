@@ -23,8 +23,11 @@ namespace DeBakery
 
         private void UpdateStock()
         {
-            listBoxSandwiches.DataSource = null;
-            listBoxSandwiches.DataSource = _bakery.SandwichesInStock;
+            listBoxSandwiches.Items.Clear();
+            foreach (var sandwich in _bakery.SandwichesInStock)
+            {
+                listBoxSandwiches.Items.Add($"{sandwich.Name} ");
+            }
         }
 
         private void OnStockUpdated()
@@ -58,31 +61,28 @@ namespace DeBakery
             this.Close();
         }
 
-
-
-
-
-          private void buttonSell_Click(object sender, EventArgs e)
-        {
-        }
-
         private void listBoxSandwiches_SelectedIndexChanged(object sender, EventArgs e)
         {
             int selectedIndex = listBoxSandwiches.SelectedIndex;
+
             if (selectedIndex >= 0 && selectedIndex < _bakery.SandwichesInStock.Count)
             {
                 SandwichModel selectedSandwich = _bakery.SandwichesInStock[selectedIndex];
+
                 UpdateIngredientsList(selectedSandwich);
+                UpdateBreadType(selectedSandwich);
             }
-
-
-
+            else if (selectedIndex < 0)
+            {
+                listBoxIngredients.Items.Clear();
+                textBoxBreadType.Clear();
+            }
         }
 
         private void UpdateBreadType(SandwichModel sandwich)
         {
-            listBoxIngredients.Items.Clear();
-            textBoxBreadType.Text = sandwich.Name;
+            textBoxBreadType.Clear();
+            textBoxBreadType.Text = sandwich.BreadType.ToString();
         }
 
         private void UpdateIngredientsList(SandwichModel sandwich)
@@ -91,12 +91,43 @@ namespace DeBakery
 
             foreach (var ingredient in sandwich.Ingredients)
             {
-                listBoxIngredients.Items.Add($"{ingredient.Name}, prijs {ingredient.Price}");
+                listBoxIngredients.Items.Add($"{ingredient.Name} - ${ingredient.Price}");
             }
+
+            //listBoxIngredients.DataSource = sandwich.Ingredients;
+        }
+
+
+        //NEED A FIX!!
+        private void buttonSell_Click(object sender, EventArgs e)
+        {
+            int selectedIndex = listBoxSandwiches.SelectedIndex;
+            if (selectedIndex >= 0 && selectedIndex < _bakery.SandwichesInStock.Count)
+            {
+                SandwichModel selectedSandwich = _bakery.SandwichesInStock[selectedIndex];
+
+                _bakery.SoldSandwiches.Add(selectedSandwich);
+                _bakery.SandwichesInStock.Remove(selectedSandwich);
+
+                // Update the revenue - edit the method
+                int sandwichPrice = _bakery.CalculatePrice(selectedSandwich.Ingredients);
+                _bakery.Revenue += sandwichPrice;
+
+                // Update the UI
+
+                UpdateStock();
+                listBoxIngredients.Items.Clear();
+                textBoxBreadType.Clear();
+            }
+
         }
     }
 }
 
-//textBoxBreadType shows the bread type of the selected sandwich
-//listBoxIngredients shows the ingredients on selected sandwich
-//buttonSell removes sandwich from stock list and into sold and triggers method for adding to revenue
+//buttonSell removes sandwich from stock list
+//and into sold
+//and triggers method for adding to revenue
+
+
+//and empties rightside of form
+//and refreshes the listbox of sandwiches
