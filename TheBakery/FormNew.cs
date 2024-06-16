@@ -28,30 +28,38 @@ namespace DeBakery
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            SandwichModel sandwich = new SandwichModel
+            if (string.IsNullOrEmpty(textBoxName.Text))
             {
-                Name = textBoxName.Text,
-                BreadType = (BreadTypeEnum)comboBoxBreadType.SelectedItem,
-            };
-            AddSelectedIngredients(sandwich);
+                MessageBox.Show("Incorrect, geef je broodje een naam");
+            }
+            else 
+            {
+                SandwichModel sandwich = new SandwichModel
+                {
+                    Name = textBoxName.Text,
+                    BreadType = (BreadTypeEnum)comboBoxBreadType.SelectedItem,
+                };
+      
+                if (listBoxIngredienten.SelectedItems.Count > 5)
+                {
+                    MessageBox.Show("Maximaal 5 ingrediënten toegestaan");
+                }
+                else
+                {
+                    AddSelectedIngredients(sandwich);
+                    _bakery.AddSandwich(sandwich);
 
-            _bakery.AddSandwich(sandwich);
-
-            this.Close();
+                    this.Close();
+                }
+            }
         }
 
         private void AddSelectedIngredients(SandwichModel sandwich)
         {
-            if (listBoxIngredienten.SelectedItems.Count >= 5 )
+  
+            foreach (IngredientModel ingredient in listBoxIngredienten.SelectedItems)
             {
-                MessageBox.Show("Maximaal 5 ingrediënten toegestaan");
-            }
-            else
-            {
-                foreach (IngredientModel ingredient in listBoxIngredienten.SelectedItems)
-                {
-                    sandwich.Ingredients.Add(ingredient);
-                }
+                sandwich.Ingredients.Add(ingredient);
             }
         }
 

@@ -27,7 +27,7 @@ namespace DeBakery
             Ingredients.Add(new IngredientModel("Veggie burger", 4));
             Ingredients.Add(new IngredientModel("Gebakken ei", 2));
             Ingredients.Add(new IngredientModel("Tomaat", 2));
-            Ingredients.Add(new IngredientModel("ui", 2));
+            Ingredients.Add(new IngredientModel("Ui", 2));
         }
 
         public void AddSandwich(SandwichModel sandwich)

@@ -17,28 +17,17 @@ namespace DeBakery
         public FormBakery()
         {
             InitializeComponent();
-            _bakery.StockUpdated += OnStockUpdated;
-            UpdateStock();
+            _bakery.StockUpdated += UpdateStockListBox;
+            //onle use this if I want to show sandwiches at the starting - by serializing
+            //UpdateStock();
         }
 
-        private void UpdateStock()
+        private void UpdateStockListBox()
         {
             listBoxSandwiches.Items.Clear();
             foreach (var sandwich in _bakery.SandwichesInStock)
             {
                 listBoxSandwiches.Items.Add($"{sandwich.Name} ");
-            }
-        }
-
-        private void OnStockUpdated()
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new Action(UpdateStock));
-            }
-            else
-            {
-                UpdateStock();
             }
         }
 
@@ -53,7 +42,6 @@ namespace DeBakery
             {
                 MessageBox.Show("Maximaal 5 broodjes is het assortiment mogelijk");
             }
-
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -91,7 +79,7 @@ namespace DeBakery
 
             foreach (var ingredient in sandwich.Ingredients)
             {
-                listBoxIngredients.Items.Add($"{ingredient.Name} - ${ingredient.Price}");
+                listBoxIngredients.Items.Add($"{ingredient.Name}:  € {ingredient.Price}");
             }
         }
 
@@ -106,12 +94,10 @@ namespace DeBakery
                 _bakery.SoldSandwiches.Add(selectedSandwich);
                 _bakery.SandwichesInStock.Remove(selectedSandwich);
 
-                // Update the revenue - edit the method
                 double sandwichPrice = _bakery.CalculatePrice(selectedSandwich.Ingredients);
                 _bakery.Revenue += sandwichPrice;
-                MessageBox.Show($"{_bakery.Revenue}");
 
-                UpdateStock();
+                UpdateStockListBox();
                 listBoxIngredients.Items.Clear();
                 textBoxBreadType.Clear();
             }
