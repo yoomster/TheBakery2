@@ -93,15 +93,12 @@ namespace DeBakery
             {
                 listBoxIngredients.Items.Add($"{ingredient.Name} - ${ingredient.Price}");
             }
-
-            //listBoxIngredients.DataSource = sandwich.Ingredients;
         }
 
-
-        //NEED A FIX!!
         private void buttonSell_Click(object sender, EventArgs e)
         {
             int selectedIndex = listBoxSandwiches.SelectedIndex;
+
             if (selectedIndex >= 0 && selectedIndex < _bakery.SandwichesInStock.Count)
             {
                 SandwichModel selectedSandwich = _bakery.SandwichesInStock[selectedIndex];
@@ -110,10 +107,9 @@ namespace DeBakery
                 _bakery.SandwichesInStock.Remove(selectedSandwich);
 
                 // Update the revenue - edit the method
-                int sandwichPrice = _bakery.CalculatePrice(selectedSandwich.Ingredients);
+                double sandwichPrice = _bakery.CalculatePrice(selectedSandwich.Ingredients);
                 _bakery.Revenue += sandwichPrice;
-
-                // Update the UI
+                MessageBox.Show($"{_bakery.Revenue}");
 
                 UpdateStock();
                 listBoxIngredients.Items.Clear();
@@ -123,11 +119,3 @@ namespace DeBakery
         }
     }
 }
-
-//buttonSell removes sandwich from stock list
-//and into sold
-//and triggers method for adding to revenue
-
-
-//and empties rightside of form
-//and refreshes the listbox of sandwiches

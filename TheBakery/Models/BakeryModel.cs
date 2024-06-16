@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,10 +13,10 @@ namespace DeBakery
         public event Action StockUpdated;
 
         public string Name { get; set; }
-        public int Revenue { get; set; }
+        public double Revenue { get; set; }
         public List<SandwichModel> SandwichesInStock { get; set; } = new List<SandwichModel>();
         public List<SandwichModel> SoldSandwiches { get; set; } = new List<SandwichModel>();
-        public List<IngredientModel> Ingredients { get; set; } = new List<IngredientModel>(); //all available ingredients
+        public List<IngredientModel> Ingredients { get; set; } = new List<IngredientModel>(); 
 
         public BakeryModel()
         {
@@ -28,25 +29,21 @@ namespace DeBakery
             Ingredients.Add(new IngredientModel("Tomaat", 2));
             Ingredients.Add(new IngredientModel("ui", 2));
         }
+
         public void AddSandwich(SandwichModel sandwich)
         {
             SandwichesInStock.Add(sandwich);
             StockUpdated?.Invoke();
         }
 
-
-
-
-
-        public void SellSandwich(SandwichModel sandwich)
+        internal double CalculatePrice(List<IngredientModel> ingredients)
         {
-            SoldSandwiches.Add(sandwich);
-            SandwichesInStock.Remove(sandwich);
-        }
+            double price = 0;
+            double btw = 0.21;
+            price += ingredients.Sum(i => i.Price);
+            double btwCost = price * btw;
 
-        internal int CalculatePrice(List<IngredientModel> ingredients)
-        {
-            return ingredients.Sum(i => i.Price);
+            return price + btwCost + 5;
         }
     }
 }
